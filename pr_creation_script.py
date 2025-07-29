@@ -120,6 +120,11 @@ class PRCreationScript:
         print(f"Current branch: {current_branch}")
         print(f"Using remote: {remote_name}")
         
+        # First, pull latest changes on current branch before switching
+        print(f"Pulling latest changes on current branch {current_branch}...")
+        if not self.run_git_command(repo_path, ["pull"], f"Pulling latest changes on {current_branch}"):
+            print(f"Warning: Failed to pull latest changes on {current_branch}, but continuing...")
+        
         # Check for uncommitted changes and stash if necessary
         stashed = False
         if self.has_uncommitted_changes(repo_path):
@@ -152,8 +157,9 @@ class PRCreationScript:
                                       f"Creating and switching to {branch_name} from {remote_name}"):
                 return False
         
-        # Pull latest changes
-        if not self.run_git_command(repo_path, ["pull"], "Pulling latest changes"):
+        # Pull latest changes on the target branch
+        print(f"Pulling latest changes on target branch {branch_name}...")
+        if not self.run_git_command(repo_path, ["pull"], f"Pulling latest changes on {branch_name}"):
             return False
         
         # Restore stashed changes if we stashed them

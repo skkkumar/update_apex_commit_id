@@ -138,6 +138,11 @@ class BatchPRCreation:
         primary_remote = self.get_primary_remote(repo_path)
         print(f"Using remote: {primary_remote}")
         
+        # First, pull latest changes on current branch before switching
+        print(f"Pulling latest changes on current branch {current_branch}...")
+        if not self.run_git_command(repo_path, ["pull"], f"Pulling latest changes on {current_branch}"):
+            print(f"Warning: Failed to pull latest changes on {current_branch}, but continuing...")
+        
         # Fetch latest changes
         if not self.run_git_command(repo_path, ["fetch", primary_remote], f"Fetching latest changes from {primary_remote}"):
             return False
@@ -176,8 +181,9 @@ class BatchPRCreation:
             if not self.run_git_command(repo_path, ["stash", "pop"], "Restoring stashed changes"):
                 return False
         
-        # Pull latest changes
-        if not self.run_git_command(repo_path, ["pull"], "Pulling latest changes"):
+        # Pull latest changes on the target branch
+        print(f"Pulling latest changes on target branch {branch_name}...")
+        if not self.run_git_command(repo_path, ["pull"], f"Pulling latest changes on {branch_name}"):
             return False
         
         print(f"✓ Successfully checked out {repo_name} to {branch_name}")
