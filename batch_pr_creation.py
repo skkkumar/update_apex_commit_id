@@ -218,7 +218,8 @@ class BatchPRCreation:
                 "--pytorch-branch", pytorch_branch,
                 "--apex-branch", apex_branch,
                 "--pytorch-repo-url", self.pytorch_repo_url,
-                "--push-and-create-pr"
+                "--push-and-create-pr",
+                "--open-browser"
             ]
             
             print(f"\n🔧 Running PR creation script...")
@@ -398,8 +399,8 @@ Examples:
     batch_creator.print_summary(results)
     
     # Open PR URLs in browser if requested
-    if not args.no_browser:
-        batch_creator.open_pr_urls(results)
+    # if not args.no_browser:
+        # batch_creator.open_pr_urls(results)
     
     # Exit with appropriate code
     successful = len([r for r in results if r["success"]])
