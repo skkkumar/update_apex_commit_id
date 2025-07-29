@@ -218,8 +218,7 @@ class BatchPRCreation:
                 "--pytorch-branch", pytorch_branch,
                 "--apex-branch", apex_branch,
                 "--pytorch-repo-url", self.pytorch_repo_url,
-                "--push-and-create-pr",
-                "--open-browser"
+                "--push-and-create-pr"
             ]
             
             print(f"\n🔧 Running PR creation script...")
